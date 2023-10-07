@@ -4,6 +4,8 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
 
 # Create Function Transformer to use Feature Union
 def get_numeric_data(x):
@@ -43,6 +45,11 @@ param_grid = {'clf__n_estimators': np.linspace(1, 100, 10, dtype=int),
 kfold = StratifiedKFold(n_splits=7)
 scoring = {'Accuracy': 'accuracy', 'F1': 'f1_macro'}
 refit = 'F1'
+
+X, y = make_classification(random_state=0)
+X_train, X_test, Y_train, Y_test = train_test_split(X, y,
+                                                    random_state=0)
+
 
 # Perform GridSearch
 rf_model = GridSearchCV(pipeline, param_grid=param_grid, cv=kfold, scoring=scoring, 
